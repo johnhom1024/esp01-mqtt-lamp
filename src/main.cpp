@@ -54,16 +54,17 @@ void reconnect()
     {
       Serial.println("connected");
       // 连接成功之后，开启关闭重复两次
-      client.publish(out_topic, "1");
-      delay(1000);
-      client.publish(out_topic, "0");
-      delay(1000);
-      client.publish(out_topic, "1");
-      delay(1000);
-      client.publish(out_topic, "0");
-      delay(1000);
-      client.publish(out_topic, "1");
+      digitalWrite(in_led, HIGH);
+      delay(500);
+      digitalWrite(in_led, LOW);
+      delay(500);
+      digitalWrite(in_led, HIGH);
+      delay(500);
+      digitalWrite(in_led, LOW);
+      delay(500);
+      digitalWrite(in_led, HIGH);
 
+      client.publish(out_topic, "1");
       // 订阅消息
       client.subscribe(in_topic);
       delay(1000);
@@ -84,7 +85,7 @@ void callback(char *topic, byte *payload, unsigned int length)
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
-  for (int i = 0; i < length; i++)
+  for (unsigned int i = 0; i < length; i++)
   {
     char receivedChar = (char)payload[i];
     Serial.print(receivedChar);
